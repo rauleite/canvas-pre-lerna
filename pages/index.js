@@ -1,16 +1,57 @@
-import React from 'react';
-import AppDrawerSides from '../components/Canvas';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { gql, useQuery } from '@apollo/client';
 
-export default () => (
-  <>
-    <AppDrawerSides />
-  </>
-);
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+    }
+  }
+`;
 
-// <script
-//   src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.0.0-rc.1/fabric.min.js"
-// eslint-disable-next-line max-len
-//   integrity="sha512-rKF82ziMDgkkUwTBlsQhy6Dzdyydg5ikvL1zueWJ6SQxzXaqPY85rEiRvJymMI5YiQqyvm0+mlVYb5tLjmslQA=="
-//   crossOrigin="anonymous"
-//   // async
-// />
+const Index = () => {
+  const router = useRouter();
+  const { data, loading, error } = useQuery(ViewerQuery);
+  const viewer = data?.viewer;
+  const shouldRedirect = !(loading || error || viewer);
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRedirect]);
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
+  if (viewer) {
+    return (
+      <div>
+        You're signed in as
+        {' '}
+        {viewer.email}
+        {' '}
+        goto
+        {' '}
+        <Link href="/about">
+          <a>about</a>
+        </Link>
+        {' '}
+        page. or
+        {' '}
+        <Link href="/signout">
+          <a>signout</a>
+        </Link>
+      </div>
+    );
+  }
+
+  return <p>Loading...</p>;
+};
+
+export default Index;

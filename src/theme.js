@@ -46,13 +46,9 @@ const systemColorScheme = () => {
 
 export const useTheme = () => {
   const [theme, setTheme] = useState(/* Persisted theme || */ THEMES.a);
-  const changeTheme = (currentTheme, newTheme) => {
-    if (currentTheme !== newTheme) {
-      return newTheme;
-    }
-  };
+
   const customSetTheme = (newTheme) => {
-    const themeChanged = changeTheme(theme, newTheme);
+    const themeChanged = theme !== newTheme ? newTheme : undefined;
     if (themeChanged) {
       setTheme(themeChanged);
     }
