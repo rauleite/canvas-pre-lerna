@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 // Hook
-export default (eventName, handler, element) => {
+export default (eventName, handler, element = global) => {
   // Create a ref that stores handler
   const savedHandler = useRef();
 

@@ -1,6 +1,7 @@
 export const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 export const isServer = () => typeof window === 'undefined';
+export const isDev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 export const loadScript = async ({
   src, integrity, instanceTest, async = true, crossOrigin = 'anonymous',
@@ -8,7 +9,7 @@ export const loadScript = async ({
   if (isServer()) return;
   return new Promise((resolve) => {
     if (instanceTest) {
-      console.log('obj já carregado');
+      console.warn('obj já carregado');
       return resolve();
     }
     const tag = document.createElement('script');

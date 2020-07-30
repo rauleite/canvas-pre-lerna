@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { gql, useMutation, useApolloClient } from '@apollo/client';
+import { CssBaseline } from '@material-ui/core';
 import { getErrorMessage } from '../lib/form';
 import Field from '../components/field';
 
