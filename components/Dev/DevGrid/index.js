@@ -1,7 +1,11 @@
-import React, { useContext } from 'react';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import MenuTheme from './MenuTheme';
+import BrushIcon from '@material-ui/icons/BrushRounded';
+import LinkIcon from '@material-ui/icons/LinkRounded';
+import DevMenu from './DevMenu';
+import ItemsTheme from './DevMenu/ItemsTheme';
+import ItemsPages from './DevMenu/ItemsPages';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,18 +24,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default () => {
+const DevGrid = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      {/* <Grid container spacing={1}> */}
       <Grid container spacing={0}>
         <Grid item>
-          <MenuTheme />
+          <DevMenu icon={<LinkIcon fontSize="small" />}>
+            <ItemsPages />
+          </DevMenu>
+        </Grid>
+        <Grid item>
+          <DevMenu icon={<BrushIcon fontSize="small" />}>
+            <ItemsTheme />
+          </DevMenu>
         </Grid>
       </Grid>
     </div>
-  // criar menu desses button
   );
 };
+
+export default DevGrid;

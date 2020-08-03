@@ -1,33 +1,37 @@
 import React from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { ThemeProvider, createMuiTheme, Hidden } from '@material-ui/core';
 import Dev from '../Dev';
-import { useCustomTheme, useThemeType } from './hooks';
-import { THEMES } from './utils';
-import ThemeContext from './context';
+import { useCustomTheme, ThemeContext } from './hooks';
+import { THEME_TYPE } from './utils';
 
 // eslint-disable-next-line react/prop-types
 export default function CustomThemeProvider({ children }) {
   const [customTheme, setCustomTheme] = useCustomTheme();
-  const [themeType, toggleThemeType] = useThemeType();
 
-  const onChangeThemeA = () => {
-    setCustomTheme(THEMES.a);
-  };
-  const onChangeThemeDefault = () => {
-    setCustomTheme(THEMES.default);
+  const onChangeTheme = (name) => {
+    const { type } = customTheme.palette;
+    setCustomTheme({ name, type });
   };
 
+  const toggleThemeType = () => {
+    const { name } = customTheme;
+
+    const type = customTheme.palette.type === THEME_TYPE.light
+      ? THEME_TYPE.dark
+      : THEME_TYPE.light;
+
+    setCustomTheme({ name, type });
+  };
   return (
-    <ThemeProvider theme={createMuiTheme({
-      palette: { ...customTheme.palette, type: themeType },
-    })}
-    >
-      <>
-        <ThemeContext.Provider value={{ toggleThemeType, onChangeThemeA, onChangeThemeDefault }}>
-          <Dev />
-          {children}
-        </ThemeContext.Provider>
-      </>
+    <ThemeProvider theme={createMuiTheme(customTheme)}>
+      {/* Esconder SSR, para evitar flickering de dark mode */}
+      {/* <Hidden xsDown implementation="css"> */}
+      <ThemeContext.Provider value={{ toggleThemeType, onChangeTheme }}>
+
+        <Dev />
+        {children}
+      </ThemeContext.Provider>
+      {/* </Hidden> */}
     </ThemeProvider>
   );
 }

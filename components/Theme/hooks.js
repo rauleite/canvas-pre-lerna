@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
-import { THEMES, systemColorScheme, THEME_TYPE } from './utils';
+import React from 'react';
+import { themes, getInitTheme } from './utils';
+import storage from '../../src/utils/storage';
 
-export const useCustomTheme = () => {
-  const [theme, setTheme] = useState(() =>/* Persisted theme || */ THEMES.a);
+export const ThemeContext = React.createContext({});
 
-  const customSetTheme = (newTheme) => {
-    const themeChanged = theme !== newTheme ? newTheme : undefined;
-    if (themeChanged) {
-      setTheme(themeChanged);
+// eslint-disable-next-line import/prefer-default-export
+export const useCustomTheme = (initTheme) => {
+  const setNewTheme = ({ name, type, hasChanged }) => {
+    if (hasChanged) {
+      storage.theme.set({ name, type }, { isAsync: true });
     }
+    return themes[name](type);
+  };
+
+  const [theme, setTheme] = React.useState(() => setNewTheme(getInitTheme(initTheme)));
+
+  const customSetTheme = ({ name, type }) => {
+    const isNewName = theme.name !== name;
+    const isNewType = theme.palette.type !== type;
+    if (!isNewName && !isNewType) {
+      return;
+    }
+    setTheme(setNewTheme({ name, type, hasChanged: true }));
   };
   return [theme, customSetTheme];
-};
-
-export const useThemeType = () => {
-  const [themeType, setTheme] = useState(
-    /* Persisted theme || */ systemColorScheme() || THEME_TYPE.light,
-  );
-  const toggleThemeType = () => {
-    setTheme(
-      themeType === THEME_TYPE.light ? THEME_TYPE.dark : THEME_TYPE.light,
-    );
-  };
-  return [themeType, toggleThemeType];
 };

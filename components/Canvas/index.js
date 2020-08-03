@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default () => {
+const Canvas = () => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -309,3 +309,5 @@ export default () => {
     </>
   );
 };
+
+export default Canvas

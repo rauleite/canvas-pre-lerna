@@ -4,15 +4,11 @@ import Document, {
 } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 
-// import { useTheme } from '../src/theme';
-
-// <meta name="theme-color" content="#72B340" />
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="pt-BR">
         <Head>
-          {/* PWA primary color */}
           <link
             rel="dns-prefetch"
             href="https://fonts.googleapis.com"
@@ -25,8 +21,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-          {/* <meta name="theme-color" content={currentTheme.theme.palette.primary.main} /> */}
         </Head>
         <body>
           <Main />

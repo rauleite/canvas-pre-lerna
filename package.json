@@ -1,5 +1,5 @@
 {
-  "name": "irmaos",
+  "name": "canvas",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -20,7 +20,6 @@
     "apollo-server-micro": "^2.16.0",
     "clsx": "^1.1.1",
     "cookie": "^0.4.1",
-    "fabric": "4.0.0-rc.1",
     "graphql": "^15.3.0",
     "next": "^9.3.2",
     "next-offline": "^5.0.0",
